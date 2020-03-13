@@ -1,4 +1,5 @@
-//import 'dart:math';
+import 'dart:math';
+import 'util.dart';
 
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
@@ -332,10 +333,13 @@ class CirclePainter extends CustomPainter {
       );
     }
 
+    var start = 0.0;
+    var end = 0.0;
+    
     if (reverse) {
-      final start =
+      start =
           math.radians(360 * startAngleFixedMargin - 90.0 + fixedStartAngle);
-      final end = math.radians(-progress * startAngleFixedMargin);
+      end = math.radians(-progress * startAngleFixedMargin);
       canvas.drawArc(
         Rect.fromCircle(
           center: center,
@@ -347,8 +351,8 @@ class CirclePainter extends CustomPainter {
         _paintLine,
       );
     } else {
-      final start = math.radians(-90.0 + fixedStartAngle);
-      final end = math.radians(progress * startAngleFixedMargin);
+      start = math.radians(-90.0 + fixedStartAngle);
+      end = math.radians(progress * startAngleFixedMargin);
       canvas.drawArc(
         Rect.fromCircle(
           center: center,
@@ -360,7 +364,27 @@ class CirclePainter extends CustomPainter {
         _paintLine,
       );
     }
+
+    if(true) {
+      Paint handler = Paint();
+      handler.color =  Colors.white;
+      handler.style = PaintingStyle.fill;
+
+      Offset initHandler = radiansToCoordinates(center, start, radius);
+      canvas.drawCircle(initHandler, 5.0, handler);
+    }
+
+    if(true) {
+      Paint handler = Paint();
+      handler.color =  Colors.white;
+      handler.style = PaintingStyle.fill;
+
+      Offset endHandler = radiansToCoordinates(center, -pi / 2 + end, radius);
+      canvas.drawCircle(endHandler, 5.0, handler);
+    }
   }
+
+
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
